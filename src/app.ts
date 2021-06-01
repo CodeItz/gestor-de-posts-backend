@@ -6,6 +6,7 @@ import moment from "moment";
 import { createSchedule } from "./controllers/Schedule";
 import { dateToScheduleDate } from "./utils/Schedule";
 
+import routes from "./routes";
 const port = process.env.PORT || 3333;
 const app = express();
 
@@ -20,6 +21,8 @@ mongoose.connect(databaseURL, {
 
 app.use(cors());
 app.use(express.json());
+app.use(routes);
+
 app.listen(port, () => {
   console.log(`O servidor está escutando na porta ${port}`);
   //exemplaAgendamento();
