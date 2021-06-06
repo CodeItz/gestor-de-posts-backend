@@ -7,18 +7,24 @@ import SubClientController from "./controllers/SubClient";
 import createSubClient from "./validations/SubClients/create";
 import updateSubClient from "./validations/SubClients/create";
 
-
 import createClient from "./validations/Clients/create";
 import ClientController from "./controllers/Client";
 
 import AuthMiddleware from "./middlewares/auth";
+import AuthController from "./controllers/Auth";
+import createAuth from "./validations/Auth/create";
+
 const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
   return res.json({ message: "Its works the new Backend!" });
 });
 
+routes.post("/auth", createAuth, AuthController.store);
+
+// rotas privadas
 routes.use(AuthMiddleware);
+
 
 routes.get("/subclients", SubClientController.index);
 routes.post("/subclients", createSubClient, SubClientController.store);
