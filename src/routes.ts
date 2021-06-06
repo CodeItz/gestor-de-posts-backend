@@ -11,11 +11,14 @@ import updateSubClient from "./validations/SubClients/create";
 import createClient from "./validations/Clients/create";
 import ClientController from "./controllers/Client";
 
+import AuthMiddleware from "./middlewares/auth";
 const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
   return res.json({ message: "Its works the new Backend!" });
 });
+
+routes.use(AuthMiddleware);
 
 routes.get("/subclients", SubClientController.index);
 routes.post("/subclients", createSubClient, SubClientController.store);
