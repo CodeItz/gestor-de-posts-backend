@@ -3,6 +3,9 @@ import { encryptString } from "../../utils/Encrypt";
 
 import { SubClientsInterface, RedeInterface } from "./ISubClients";
 
+import Client from "../Clients/";
+import { ClientsInterface, AuthInterface } from "./../Clients/IClients";
+
 const ObjectId = Schema.Types.ObjectId;
 
 export interface SubClientModelInterface
@@ -34,8 +37,16 @@ const encryptRedes = async (redes: RedeInterface[]) => {
 };
 
 SubClientSchema.pre<SubClientsInterface>("save", async function (next) {
-  const { redes = [] } = this;
+  const { redes = [], _id, idClient } = this;
   this.redes = await encryptRedes(redes);
+
+  const client = await Client.findById(idClient);
+
+  if (client) {
+    client.clients = [...client.clients, _id];
+    await client.updateOne(client);
+  }
+
   next();
 });
 
