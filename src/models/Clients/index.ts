@@ -1,5 +1,5 @@
 import { Document, Schema, model } from "mongoose";
-import EncryptPassword from "../../utils/EncryptPassword";
+import { encryptString } from "../../utils/Encrypt";
 
 const ObjectId = Schema.Types.ObjectId;
 
@@ -25,7 +25,7 @@ const ClientSchema: Schema = new Schema({
 });
 
 const encryptAuth = async (auth: AuthInterface): Promise<AuthInterface> => {
-  auth.password = await EncryptPassword(auth.password);
+  auth.password = await encryptString(auth.password);
 
   return auth;
 };

@@ -1,5 +1,5 @@
 import { Document, Schema, model } from "mongoose";
-import EncryptPassword from "../../utils/EncryptPassword";
+import { encryptString } from "../../utils/Encrypt";
 
 import { SubClientsInterface, RedeInterface } from "./ISubClients";
 
@@ -23,7 +23,7 @@ const SubClientSchema: Schema = new Schema({
 const encryptRedes = async (redes: RedeInterface[]) => {
   const redesCrypted: Array<RedeInterface> = await Promise.all(
     redes.map(async (item: RedeInterface): Promise<RedeInterface> => {
-      const passwordCrypted = await EncryptPassword(item.password);
+      const passwordCrypted = await encryptString(item.password);
 
       item.password = passwordCrypted;
       return item;
