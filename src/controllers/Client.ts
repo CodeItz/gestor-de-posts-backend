@@ -15,6 +15,13 @@ const ClientsController = {
     try {
       const { id } = req.params;
       const client = await Clients.findById(id);
+
+      if (!client) {
+        return res.status(404).json({
+          message: "Client not found",
+        });
+      }
+
       return res.json({ data: client });
     } catch (error) {
       return res.status(500).json({ error });
@@ -23,8 +30,18 @@ const ClientsController = {
 
   async store(req: Request, res: Response) {
     try {
-      const client = await Clients.create(req.body);
-      return res.json({ data: client });
+      const { auth } = req.body;
+
+      const client = await Clients.findOne({ "auth.email": auth.email });
+
+      if (client) {
+        return res.status(401).json({
+          message: "Already registered",
+        });
+      }
+
+      const clientStore = await Clients.create(req.body);
+      return res.json({ data: clientStore });
     } catch (error) {
       return res.status(500).json({ error });
     }
