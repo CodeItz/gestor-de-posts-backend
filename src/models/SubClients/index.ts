@@ -12,16 +12,19 @@ export interface SubClientModelInterface
   extends SubClientsInterface,
     Document {}
 
-const SubClientSchema: Schema = new Schema({
-  name: String,
-  idClient: ObjectId,
-  redes: {
-    type: Array,
-    default: [],
+const SubClientSchema: Schema = new Schema(
+  {
+    name: String,
+    idClient: ObjectId,
+    redes: {
+      type: Array,
+      default: [],
+    },
+    createdAt: Date,
+    updateAt: Date,
   },
-  createdAt: Date,
-  updateAt: Date,
-});
+  { timestamps: true }
+);
 
 const encryptRedes = async (redes: RedeInterface[]) => {
   const redesCrypted: Array<RedeInterface> = await Promise.all(
