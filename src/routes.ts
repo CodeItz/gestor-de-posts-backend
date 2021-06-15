@@ -14,6 +14,9 @@ import AuthMiddleware from "./middlewares/auth";
 import AuthController from "./controllers/Auth";
 import createAuth from "./validations/Auth/create";
 
+import PostController from "./controllers/Post";
+import createPost from "./validations/Post/create";
+
 const routes = Router();
 
 routes.get("/", (req: Request, res: Response) => {
@@ -25,7 +28,6 @@ routes.post("/auth", createAuth, AuthController.store);
 // rotas privadas
 routes.use(AuthMiddleware);
 
-
 routes.get("/subclients", SubClientController.index);
 routes.post("/subclients", createSubClient, SubClientController.store);
 routes.put("/subclients/:id", updateSubClient, SubClientController.update);
@@ -34,6 +36,11 @@ routes.get("/subclients/:id", SubClientController.show);
 routes.get("/clients", ClientController.index);
 routes.post("/clients", createClient, ClientController.store);
 routes.get("/clients/:id", ClientController.show);
+
+routes.get("/posts", PostController.index);
+routes.post("/posts", createPost, PostController.store);
+routes.get("/posts/:id", PostController.show);
+routes.put("/posts/:id", createPost, PostController.update);
 
 const uploader = multer({
   storage: multer.memoryStorage(),
