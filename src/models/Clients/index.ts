@@ -7,22 +7,25 @@ import { ClientsInterface, AuthInterface } from "./IClients";
 
 export interface ClientModelInterface extends ClientsInterface, Document {}
 
-const ClientSchema: Schema = new Schema({
-  name: String,
-  blocked: Boolean,
-  reason: String,
-  auth: {
-    email: String,
-    password: String,
+const ClientSchema: Schema = new Schema(
+  {
+    name: String,
+    blocked: Boolean,
+    reason: String,
+    auth: {
+      email: String,
+      password: String,
+    },
+    plano: {
+      type: ObjectId,
+      default: null,
+    },
+    clients: Array,
+    createdAt: Date,
+    updateAt: Date,
   },
-  plano: {
-    type: ObjectId,
-    default: null,
-  },
-  clients: Array,
-  createdAt: Date,
-  updateAt: Date,
-});
+  { timestamps: true }
+);
 
 const encryptAuth = async (auth: AuthInterface): Promise<AuthInterface> => {
   auth.password = await encryptString(auth.password);
