@@ -1,5 +1,6 @@
 import { Request, Response } from "express";
 import Post from "../models/Post";
+import PostSchedule from "./PostSchedule";
 
 const PostController = {
   async index(req: Request, res: Response) {
@@ -28,6 +29,8 @@ const PostController = {
       req.body.clientId = consumerId;
 
       const post = await Post.create(req.body);
+      PostSchedule.createSchedulePost(post);
+
       return res.json({ data: post });
     } catch (error) {
       return res.status(500).json({ error });
