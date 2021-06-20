@@ -11,6 +11,7 @@ const PostSchema: Schema = new Schema(
     clientId: ObjectId,
     subClientId: ObjectId,
     dateScheduled: Date,
+    hourScheduled: String,
     photoURL: String,
     description: {
       type: String,
