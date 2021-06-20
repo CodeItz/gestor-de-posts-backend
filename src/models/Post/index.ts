@@ -14,9 +14,11 @@ const PostSchema: Schema = new Schema(
     photoURL: String,
     description: {
       type: String,
+    },
+    status: {
+      type: String,
       default: "open",
     },
-    status: String,
   },
   { timestamps: true }
 );
