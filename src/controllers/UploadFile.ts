@@ -5,20 +5,13 @@ import { Storage } from "@google-cloud/storage";
 const UploadController = {
   async store(req: Request, res: Response) {
     try {
-      console.log('antes')
       const file = req.files[0];
-      console.log('depois')
 
       const storage = new Storage({
         projectId: process.env.GCLOUD_PROJECT_ID,
         keyFilename: process.env.GCLOUD_APPLICATION_CREDENTIALS,
       });
 
-      console.log({
-        projectId: process.env.GCLOUD_PROJECT_ID,
-        keyFilename: process.env.GCLOUD_APPLICATION_CREDENTIALS,
-        bucket: process.env.GCLOUD_STORAGE_BUCKET_URL
-      })
 
       const bucket = storage.bucket(process.env.GCLOUD_STORAGE_BUCKET_URL);
       const blob = bucket.file(file.originalname);
@@ -46,7 +39,7 @@ const UploadController = {
 
       blobWriter.end(file.buffer);
     } catch (error) {
-      return res.status(500).json({ error})
+      return res.status(500).json({ error });
     }
   },
 };
